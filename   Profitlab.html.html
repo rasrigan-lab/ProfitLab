@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ProfitLab — בקרת עלויות למסעדות | Cost control for restaurants</title>
+<meta name="description" content="ProfitLab — בקרת עלויות למסעדות בתל אביב ובגוש דן. בדיקת פודקוסט חינם, כרטיסי מנה, הנדסת תפריט, ליווי פתיחה ורישיון עסק.">
+<meta property="og:title" content="ProfitLab — בקרת עלויות למסעדות">
+<meta property="og:description" content="יותר רווח מכל מנה. בלי לפגוע באיכות. תל אביב וגוש דן.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1C1F22">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%231C1F22'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='700' font-size='28' fill='%23C9A27E' text-anchor='middle'%3EPL%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=IBM+Plex+Sans:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--concrete:#ECEBE8;--paper:#F5F5F3;--ink:#1C1F22;--muted:#4E545A;--steel:#5E6A73;--line:#CFCFCB;--graphite:#1E2124;--graphite-line:#3A3F44;--on-dark:#ECEDEE;--on-dark-muted:#B3B8BD;--wood:#7A4E2D;--wood-light:#C9A27E;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--concrete);color:var(--ink);font-family:Heebo,'IBM Plex Sans','Segoe UI',Tahoma,sans-serif;line-height:1.65;-webkit-text-size-adjust:100%}
+html[lang=ru] body,html[lang=en] body{font-family:'IBM Plex Sans',Heebo,'Segoe UI',sans-serif}
+a{color:var(--wood)}a:hover{color:#5B3A22}
+:focus-visible{outline:2px solid var(--wood);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.wrap{max-width:1160px;margin:0 auto;padding:80px 24px}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.label{font-family:var(--mono);font-size:13px;letter-spacing:3px;color:var(--steel)}
+.dark .label{color:var(--wood-light)}
+h1,h2{margin:0;font-weight:300;line-height:1.2}
+h2{font-size:clamp(30px,3.6vw,44px)}
+h1 b,h2 b{font-weight:700}
+.head{display:flex;flex-direction:column;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:13px 26px;border-radius:4px;text-decoration:none;font-weight:500;font-size:16px}
+.btn-dark{background:var(--ink);color:#fff}.btn-dark:hover{color:#fff;background:#2B2F33}
+.btn-wood{background:var(--wood);color:#fff}.btn-wood:hover{color:#fff;background:#6A4327}
+.btn-line{border:1px solid var(--ink);color:var(--ink)}
+.dark{background:var(--graphite);color:var(--on-dark)}
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(28,31,34,.96);color:var(--on-dark);border-bottom:1px solid var(--graphite-line);padding-top:env(safe-area-inset-top,0px)}
+.bar{max-width:1160px;margin:0 auto;padding:12px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:22px;letter-spacing:4px;font-family:Heebo,'IBM Plex Sans',sans-serif;color:var(--on-dark);text-decoration:none}
+.logo b{font-weight:700}.logo span{font-weight:300;color:var(--wood-light)}
+nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;font-size:15px}
+nav .links{display:flex;flex-wrap:wrap;gap:8px 20px}
+nav .links a{color:var(--on-dark);text-decoration:none}
+.langs{display:inline-flex;border:1px solid #4A5056;border-radius:4px;overflow:hidden;direction:ltr}
+.langs button{min-width:44px;min-height:40px;padding:0 10px;border:0;background:transparent;color:var(--on-dark);font-family:var(--mono);font-size:13px;letter-spacing:1px;cursor:pointer}
+.langs button[aria-pressed=true]{background:var(--on-dark);color:var(--ink)}
+.wa-top{background:var(--wood);color:#fff;text-decoration:none;font-weight:500;padding:9px 18px;border-radius:4px;min-height:44px;display:inline-flex;align-items:center}
+.wa-top:hover{color:#fff}
+@media (max-width:760px){nav .links{display:none}}
+/* hero */
+.grid-bg{background-color:var(--concrete);background-image:repeating-linear-gradient(0deg,rgba(28,31,34,.05) 0 1px,transparent 1px 56px),repeating-linear-gradient(90deg,rgba(28,31,34,.05) 0 1px,transparent 1px 56px)}
+.hero{display:flex;flex-wrap:wrap;align-items:center;gap:56px;padding-top:72px}
+.hero-text{flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:22px}
+.hero h1{font-size:clamp(36px,5.2vw,64px);line-height:1.1;letter-spacing:-1px}
+.rule{width:72px;height:3px;background:var(--wood)}
+.hero p{margin:0;font-size:19px;font-weight:300;color:#3A3F44;max-width:540px}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.note{font-size:14px;color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:#3A3F44}
+.facts span{display:inline-flex;align-items:center;gap:6px}
+/* calculator */
+.calc{flex:1 1 360px;min-width:0;max-width:480px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.95);outline:1px solid rgba(28,31,34,.08);border-radius:6px;padding:24px 20px;box-shadow:0 24px 60px rgba(28,31,34,.14);display:flex;flex-direction:column;gap:12px;font-size:15px}
+.calc-title{font-weight:500;font-size:21px}
+.cols,.crow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.8fr) minmax(0,.9fr) minmax(0,.9fr) 36px;gap:6px;align-items:center}
+.cols{font-size:12px;font-weight:500;color:var(--muted)}
+.calc input,.calc select{width:100%;min-height:44px;padding:6px 8px;border:1px solid #BFC2C4;border-radius:4px;font:inherit;font-size:16px;color:var(--ink);background:#fff}
+.calc select{font-size:15px;padding:4px}
+.del{width:36px;height:44px;border:0;background:transparent;color:var(--steel);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.add{align-self:flex-start;min-height:44px;padding:8px 16px;border:1px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:inherit;font-size:15px;font-weight:500;cursor:pointer}
+.sep{height:1px;background:rgba(28,31,34,.12)}
+.line{display:flex;justify-content:space-between;gap:12px}
+.num{direction:ltr;unicode-bidi:isolate;font-family:var(--mono)}
+.fc{display:flex;flex-direction:column;gap:4px;border-radius:4px;padding:12px;background:#E6E6E3;color:var(--ink)}
+.fc.ok{background:#DFE7E0;color:#2C5639}.fc.high{background:#F1E3D9;color:#8A3510}
+.fc .pct{font-family:var(--mono);font-weight:500;font-size:26px;direction:ltr;unicode-bidi:isolate}
+.menu-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.menu-row input{width:120px}
+/* sections */
+.cells{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.cells>div{background:var(--paper);padding:24px;display:flex;flex-direction:column;gap:6px}
+.dark .cells{background:var(--graphite-line);border-color:var(--graphite-line)}
+.dark .cells>div{background:var(--graphite);padding:26px;gap:10px}
+.k{font-family:var(--mono);font-size:12px;letter-spacing:2px;color:var(--wood-light)}
+.t{font-weight:500;font-size:20px}.d{font-size:15px;font-weight:300;color:var(--muted)}
+.dark .d{color:var(--on-dark-muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.cards>div{background:rgba(255,255,255,.7);border:1px solid #D6D6D2;border-top:2px solid var(--wood);border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.cards .k{color:var(--steel)}
+.split{display:flex;flex-wrap:wrap;gap:40px 48px;align-items:flex-start}
+.checks{flex:1.4 1 440px;min-width:0;border-top:1px solid var(--graphite-line)}
+.checks>div{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--graphite-line)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px}
+.steps>div{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--ink);padding-top:20px}
+.steps .n{font-family:var(--mono);font-size:14px;color:var(--wood)}
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--graphite-line);border:1px solid var(--graphite-line);direction:ltr}
+.names>div{background:var(--graphite);padding:34px 20px;text-align:center;font-size:22px;font-weight:300;letter-spacing:2px}
+.counter{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;border-top:1px solid var(--graphite-line);padding-top:28px}
+.counter .val{font-family:var(--mono);font-weight:500;font-size:clamp(40px,6vw,64px);color:var(--wood-light);line-height:1;direction:ltr}
+details{border-bottom:1px solid var(--line);padding:4px 0}
+summary{cursor:pointer;font-weight:500;font-size:18px;padding:14px 0;min-height:44px}
+details div{padding:0 0 18px;color:var(--muted);font-size:16px;font-weight:300}
+.wood-bar{flex:0 0 6px;background:repeating-linear-gradient(180deg,#7A4E2D 0 9px,#6B4326 9px 13px,#86593A 13px 20px)}
+.cta{background:var(--wood);color:#fff;text-align:center}
+.cta .wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.cta a.mail{color:#fff;font-weight:300}
+footer{background:var(--ink);color:var(--on-dark-muted);padding-bottom:env(safe-area-inset-bottom,0px)}
+footer .wrap{padding:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px}
+</style>
+</head>
+<body>
+
+<header>
+<div class="bar">
+<a class="logo ltr" href="#top" aria-label="ProfitLab"><b>PROFIT</b><span>LAB</span></a>
+<nav>
+<div class="links">
+<a href="#services" data-t="nav.services"></a>
+<a href="#opening" data-t="nav.opening"></a>
+<a href="#license" data-t="nav.license"></a>
+<a href="#how" data-t="nav.how"></a>
+<a href="#contact" data-t="nav.contact"></a>
+</div>
+<div class="langs" role="group" aria-label="Language">
+<button type="button" data-lang="ru">RU</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="he">HE</button>
+</div>
+<a class="wa-top" data-wa="free" href="#">WhatsApp</a>
+</nav>
+</div>
+</header>
+
+<main id="top">
+<section class="grid-bg">
+<div class="wrap hero">
+<div class="hero-text">
+<div class="label ltr">COST CONTROL · RESTAURANTS</div>
+<h1><span data-t="h1a"></span><br><b data-t="h1b"></b></h1>
+<div class="rule" aria-hidden="true"></div>
+<p data-t="heroP"></p>
+<div class="row">
+<a class="btn btn-dark" data-wa="free" href="#"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg><span data-t="ctaFree"></span></a>
+<a class="btn btn-line ltr" href="tel:+972503671111">050-3671111</a>
+</div>
+<div class="note" data-t="freeNote"></div>
+<div class="facts">
+<span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span data-t="confid"></span></span>
+<span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span data-t="zone"></span></span>
+</div>
+</div>
+
+<div class="calc" id="calc">
+<div>
+<div class="calc-title" data-t="calcTitle"></div>
+<div class="note" data-t="calcSub"></div>
+</div>
+<div class="cols"><span data-t="colName"></span><span data-t="colQty"></span><span data-t="colUnit"></span><span data-t="colPrice"></span><span></span></div>
+<div id="rows" style="display:flex;flex-direction:column;gap:8px"></div>
+<div class="note" style="font-size:12px" data-t="unitHint"></div>
+<button type="button" class="add" id="add">+ <span data-t="addRow"></span></button>
+<div class="note" id="max" hidden data-t="maxRows"></div>
+<div class="sep"></div>
+<div class="menu-row"><label for="menu-price" style="font-weight:500" data-t="menuPrice"></label><input id="menu-price" type="number" inputmode="decimal" min="0" placeholder="64"></div>
+<div class="line" style="font-weight:500"><span data-t="cost"></span><span class="num" id="total">₪0.00</span></div>
+<div class="line note"><span data-t="net"></span><span class="num" id="net">₪0.00</span></div>
+<div class="fc" id="fc"><div class="line" style="align-items:center"><span style="font-weight:500" data-t="fc"></span><span class="pct" id="pct">—</span></div><div style="font-size:14px" id="fcnote" aria-live="polite"></div></div>
+<a data-wa="menu" href="#" style="font-size:15px;font-weight:500" data-t="calcMore"></a>
+</div>
+</div>
+</section>
+
+<section style="background:var(--paper);border-top:1px solid var(--line)">
+<div class="wrap" style="display:flex;flex-direction:column;gap:32px">
+<div class="head"><div class="label ltr">01 — THE PROBLEM</div><h2><span data-t="probA"></span> <b data-t="probB"></b></h2></div>
+<div class="cells" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))" data-list="problems"></div>
+</div>
+</section>
+
+<section id="services" class="dark">
+<div class="wrap" style="display:flex;flex-direction:column;gap:32px">
+<div class="head"><div class="label ltr">02 — SERVICES</div><h2><span data-t="servA"></span> <b data-t="servB"></b></h2><p style="margin:0;color:var(--on-dark-muted);font-size:17px;font-weight:300" data-t="servP"></p></div>
+<div class="cells" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))" data-list="services"></div>
+</div>
+</section>
+
+<section id="opening" class="grid-bg">
+<div class="wrap" style="display:flex;flex-direction:column;gap:36px">
+<div class="split" style="align-items:flex-end;gap:32px">
+<div class="head" style="flex:1 1 420px;min-width:0"><div class="label ltr">03 — NEW OPENING</div><h2><span data-t="openA"></span><br><b data-t="openB"></b></h2></div>
+<p style="flex:1 1 380px;min-width:0;margin:0;font-size:18px;font-weight:300;color:#3A3F44" data-t="openP"></p>
+</div>
+<div class="cards" data-list="opening"></div>
+<a class="btn btn-dark" style="align-self:flex-start" data-wa="open" href="#" data-t="openCta"></a>
+</div>
+</section>
+
+<section id="license" class="dark">
+<div class="wrap split">
+<div style="flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:18px">
+<div class="label ltr">04 — BUSINESS LICENSE</div>
+<h2><span data-t="licA"></span><br><b data-t="licB"></b></h2>
+<p style="margin:0;font-size:18px;font-weight:300;color:#C9CDD1" data-t="licP"></p>
+<a class="btn btn-wood" style="align-self:flex-start" data-wa="lic" href="#" data-t="licCta"></a>
+<p style="margin:0;font-size:13px;font-weight:300;color:#A9AEB3" data-t="licNote"></p>
+</div>
+<div class="checks" data-list="license"></div>
+</div>
+</section>
+
+<section id="how" style="background:var(--paper);border-top:1px solid var(--line)">
+<div class="wrap" style="display:flex;flex-direction:column;gap:32px">
+<div class="head"><div class="label ltr">05 — PROCESS</div><h2><span data-t="howA"></span> <b data-t="howB"></b></h2></div>
+<div class="steps" data-list="steps"></div>
+<a class="btn btn-dark" style="align-self:flex-start" data-wa="talk" href="#" data-t="howCta"></a>
+</div>
+</section>
+
+<section id="cases" class="dark">
+<div class="wrap" style="display:flex;flex-direction:column;gap:32px">
+<div class="head"><div class="label ltr">06 — EXPERIENCE</div><h2><span data-t="expA"></span> <b data-t="expB"></b></h2></div>
+<div class="names"><div>Noema</div><div>Lulu &amp; Secret Club</div><div>Paradiso</div><div>Lemon Tree</div><div>Cafe Berlin</div></div>
+<div class="counter" id="counter" hidden><div style="font-size:18px;font-weight:300;color:#C9CDD1" data-t="counterLabel"></div><div class="val" id="counter-val">₪0</div></div>
+</div>
+</section>
+
+<section id="faq" style="background:var(--paper)">
+<div class="wrap split">
+<div class="head" style="flex:1 1 260px"><div class="label ltr">07 — FAQ</div><h2><span data-t="faqA"></span> <b data-t="faqB"></b></h2></div>
+<div style="flex:2 1 460px;min-width:0;border-top:1px solid var(--ink)" data-list="faq"></div>
+</div>
+</section>
+
+<section style="background:var(--concrete);border-top:1px solid var(--line)">
+<div class="wrap split" style="align-items:stretch">
+<div class="head" style="flex:1 1 260px"><div class="label ltr">08 — ABOUT</div><h2><span data-t="aboutA"></span> <b data-t="aboutB"></b></h2></div>
+<div style="flex:2 1 460px;min-width:0;display:flex;gap:24px">
+<div class="wood-bar" aria-hidden="true"></div>
+<div style="display:flex;flex-direction:column;gap:14px;font-size:18px;font-weight:300;color:#2B2F33"><p style="margin:0" data-t="aboutP1"></p><p style="margin:0" data-t="aboutP2"></p></div>
+</div>
+</div>
+</section>
+
+<section id="contact" class="cta">
+<div class="wrap">
+<h2><span data-t="ctaA"></span> <b data-t="ctaB"></b></h2>
+<p style="margin:0;font-size:18px;font-weight:300;max-width:600px" data-t="ctaP"></p>
+<div class="row" style="justify-content:center">
+<a class="btn btn-dark" data-wa="free" href="#" data-t="ctaWa"></a>
+<a class="btn ltr" style="border:1px solid #fff;color:#fff" href="tel:+972503671111">050-3671111</a>
+</div>
+<a class="mail ltr" href="mailto:Xromagalitskyx@gmail.com">Xromagalitskyx@gmail.com</a>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap">
+<div><span class="ltr" style="letter-spacing:3px;color:var(--on-dark)"><b>PROFIT</b><span style="font-weight:300;color:var(--wood-light)">LAB</span></span> · <span data-t="footer"></span> · <span data-t="zone"></span></div>
+<div class="ltr">© 2026 ProfitLab</div>
+</div>
+</footer>
+
+<script>
+/* === SETTINGS === */
+const PHONE = '972503671111';
+const SAVED_TOTAL = 0; // real savings in ₪; 0 hides the counter
+const DEFAULT_LANG = 'he';
+
+const I18N = {
+  he: {
+    nav: { services: "שירותים", opening: "מקום חדש", license: "רישיון עסק", how: "איך עובדים איתי", contact: "צור קשר" },
+    h1a: "יותר רווח מכל מנה.", h1b: "בלי לפגוע באיכות.",
+    heroP: "שף שפתח וניהל מסעדות. אני נכנס למטבח, מוצא איפה הכסף בורח, ומראה כמה אפשר לחסוך — בשקלים.",
+    ctaFree: "בדיקת פודקוסט חינם", freeNote: "שיחה ראשונה של 30 דקות — חינם וללא התחייבות.",
+    calcTitle: "מחשבון פודקוסט למנה", calcSub: "חשבו לבד את עלות המנה — עד 10 רכיבים",
+    colName: "רכיב", colQty: "כמות", colUnit: "יחידה", colPrice: "מחיר ₪", phName: "חזה עוף",
+    unitG: "גרם", unitU: "יחידה", unitHint: "גרם: מחיר לק״ג · יחידה: מחיר ליחידה",
+    perKg: "לק״ג", perUnit: "ליח׳", priceKg: "מחיר לקילו", priceUnit: "מחיר ליחידה", del: "מחיקת רכיב",
+    addRow: "הוספת רכיב", maxRows: "הגעתם למקסימום — 10 רכיבים.", menuPrice: "מחיר בתפריט (כולל מע״מ) ₪",
+    cost: "עלות מנה", net: "מחיר ללא מע״מ", fc: "פודקוסט",
+    fcEmpty: "הזינו רכיבים ומחיר בתפריט", fcOk: "נראה תקין. טווח מקובל במסעדות: 25%–35%", fcHigh: "מעל הטווח המקובל (25%–35%). כדאי לבדוק את המנה",
+    calcMore: "רוצים שנבדוק את כל התפריט? כתבו לי",
+    probA: "איפה מסעדות", probB: "מפסידות כסף?",
+    problems: [
+      { t: "מנות גדולות מהכרטיס", d: "כל טבח מגיש קצת אחרת, וההפרש מצטבר כל ערב." },
+      { t: "ספקים שמעלים מחירים בשקט", d: "עוד שקל לקילו פה ושם, ואף אחד לא בודק." },
+      { t: "פחת וזריקות", d: "סחורה שמתקלקלת, הכנות עודפות ואחסון לא נכון." },
+      { t: "מלאי עודף", d: "כסף שתקוע במקררים ובמחסן במקום בקופה." },
+      { t: "להיט עם רווח נמוך", d: "המנה הכי נמכרת היא לפעמים הכי פחות רווחית." }
+    ],
+    servA: "השירותים", servB: "שלנו", servP: "אפשר לבחור שירות אחד או את כולם יחד.",
+    services: [
+      { k: "COST CONTROL", t: "בקרת עלויות", d: "מעקב חודשי אחרי עלות המזון: כמה הוצאתם, על מה, ואיפה חורגים מהיעד." },
+      { k: "RECIPE COSTING", t: "תמחור מנות וכרטיסי מנה", d: "כרטיס לכל מנה עם עלות מדויקת ותקן גרמז׳ אחיד." },
+      { k: "MENU ENGINEERING", t: "הנדסת תפריט", d: "פופולריות מול רווחיות: מה להעלות במחיר, מה לשנות ומה להוריד." },
+      { k: "SUPPLIER AUDIT", t: "בדיקת ספקים וחשבוניות", d: "השוואת חשבוניות למחירי שוק והכנה למשא ומתן עם הספקים." },
+      { k: "WASTE REDUCTION", t: "צמצום פחת", d: "איתור אובדן בזריקות, בקלקול ובאחסון לא נכון." },
+      { k: "INVENTORY CONTROL", t: "ניהול מלאי והזמנות", d: "שיטת ספירה והזמנות, כדי לא לקנות מעבר לצורך." },
+      { k: "KITCHEN AUDIT", t: "ביקורת תפעול מטבח", d: "יום במטבח מהפתיחה עד הסגירה, ודוח עם ההפסדים בשקלים." },
+      { k: "STAFF TRAINING", t: "הדרכת צוות", d: "הדרכת טבחים וצוות המטבח לעמידה בגרמז׳ ובסטנדרטים." }
+    ],
+    openA: "פותחים מקום חדש?", openB: "בונים אותו נכון מהיום הראשון.",
+    openP: "הטעויות היקרות ביותר קורות עוד לפני שהמסעדה פותחת את הדלת. אני מלווה את הפתיחה מצד המטבח — כדי שתפתחו עם מערכת שעובדת, עלויות ברורות וצוות שיודע בדיוק מה לעשות.",
+    opening: [
+      { k: "LOGISTICS & SUPPLY", t: "מערכת לוגיסטיקה ואספקה", d: "שגרת הזמנות, קבלת סחורה, אחסון ומלאי — מסודרת, פשוטה ועובדת כבר מהיום הראשון." },
+      { k: "SUPPLIER SOURCING", t: "בחירת ספקים משתלמים", d: "השוואת ספקים לפי מחיר, איכות, זמני אספקה ותנאי תשלום — ובחירת השילוב שמתאים לכם." },
+      { k: "RECIPE & SPEC CARDS", t: "פיתוח כרטיסי מנה", d: "מתכון, גרמז׳, עלות ותמונת הגשה לכל מנה — כדי שכל צלחת תצא אותו דבר, בכל משמרת." },
+      { k: "STAFFING PLAN", t: "תכנון צוות", d: "כמה עובדים צריך, באיזו עמדה כל אחד עומד, מה התפקיד שלו וכמה הוא מרוויח — לפי היקף העבודה והתקציב." },
+      { k: "KITCHEN WORKFLOW", t: "זרימת עבודה במטבח", d: "סידור העמדות והתנועה מקבלת הסחורה ועד הפס — כדי לעבוד מהר, בלי להתנגש ובלי לבזבז זמן." },
+      { k: "EQUIPMENT LIST", t: "רשימת ציוד חכמה", d: "מה באמת צריך לקנות לפי התפריט, ומה רק יתפוס מקום ויייקר את הפתיחה." },
+      { k: "OPENING BUDGET", t: "תקציב מטבח לפתיחה", d: "הערכה מסודרת של ציוד, מלאי ראשוני ועלות צוות לחודשים הראשונים — בלי הפתעות." },
+      { k: "PRE-OPENING TRAINING", t: "הכשרה וליווי בפתיחה", d: "הדרכת הצוות על המנות, הסטנדרטים והשגרה, וליווי בימים הראשונים של הפתיחה." }
+    ],
+    openCta: "מספרים לי על המקום החדש",
+    licA: "עוזרים לכם לקבל", licB: "רישיון עסק.",
+    licP: "כל מה שקשור למטבח, לתברואה ולבטיחות במטבח — מסודר מראש, כדי שתגיעו לביקורת רגועים ומוכנים.",
+    licCta: "לבדיקה מקדימה של המטבח",
+    licNote: "הרישיון עצמו ניתן על ידי הרשות המקומית, בתיאום עם הגורמים המאשרים. תוכניות ואישורים שדורשים חתימה של בעל מקצוע מורשה מוגשים על ידו.",
+    license: [
+      { t: "תכנון מטבח לפי הדרישות", d: "הפרדה בין אזורי גולמי, מבושל ושטיפה, כיורים, אחסון וזרימת עבודה — לפני שבונים, לא אחרי." },
+      { t: "נהלי בטיחות מזון", d: "קבלת סחורה, אחסון, קירור, הפשרה וסימון — נהלים כתובים ומותאמים למטבח שלכם." },
+      { t: "תוכנית ניקיון ויומני בקרה", d: "לוח ניקיון וחיטוי, מעקב טמפרטורות והדברה — טפסים פשוטים שהצוות באמת ממלא." },
+      { t: "בטיחות במטבח", d: "עבודה בטוחה עם סכינים, ציוד חם, גז ושמן, ובדיקה שציוד הכיבוי וערכת העזרה הראשונה במקום." },
+      { t: "הדרכת צוות בהיגיינה ובבטיחות", d: "כל עובד יודע מה מותר, מה אסור ומה עושים כשמפקח נכנס למטבח." },
+      { t: "ביקורת מקדימה", d: "סיור במטבח בעיניים של מפקח, ורשימת תיקונים ברורה לפני הביקורת האמיתית." }
+    ],
+    howA: "איך", howB: "עובדים איתי?",
+    steps: [
+      { n: "01", t: "מדברים — חינם", d: "מספרים לי על המסעדה, על התפריט ועל מה שמטריד אתכם." },
+      { n: "02", t: "מתאימים את העבודה אליכם", d: "אין מחירון קבוע. כל מסעדה שונה, אז מסכמים יחד מה בודקים ואיך עובדים — מה שנוח לכם." },
+      { n: "03", t: "בדיקה, דוח ותוכנית", d: "אני נכנס למטבח, ואתם מקבלים רשימת שינויים לפי כמה כל אחד חוסך בחודש." }
+    ],
+    howCta: "בואו נדבר",
+    aboutA: "מי", aboutB: "אני",
+    aboutP1: "שמי רומה גליצקי. הייתי שף, פתחתי וניהלתי מסעדות. אני מכיר את המטבח מבפנים — את הלחץ של השירות, את הספקים ואת המקומות שבהם הכסף נעלם בלי שאף אחד שם לב.",
+    aboutP2: "ב־ProfitLab אני עוזר לבעלי מסעדות להוריד עלויות בלי לגעת באיכות של האוכל ובחוויה של הלקוח.",
+    ctaA: "כמה המסעדה שלכם", ctaB: "יכולה לחסוך?", ctaP: "שלחו הודעה וקבעו בדיקת פודקוסט חינם של 30 דקות.", ctaWa: "כתבו לי בוואטסאפ",
+    footer: "בקרת עלויות למסעדות",
+    zone: "תל אביב וגוש דן",
+    confid: "חיסיון מלא — החשבוניות והמספרים שלכם נשארים בינינו",
+    expA: "מקומות שעבדתי", expB: "איתם",
+    counterLabel: "כמה כבר חסכנו ללקוחות",
+    faqA: "שאלות", faqB: "נפוצות",
+    faq: [
+      { q: "מה צריך להכין לבדיקה?", a: "כרטיסי מנה אם יש, חשבוניות ספקים, דוח מכירות ותפריט. אם משהו חסר — מתחילים ממה שיש." },
+      { q: "כמה זמן לוקחת הבדיקה?", a: "בין חצי שעה לשעה." },
+      { q: "המידע שלי נשאר חסוי?", a: "כן. החשבוניות, המחירים והמספרים שלכם נשארים בינינו ולא עוברים לאף אחד." },
+      { q: "באיזה אזור אתם עובדים?", a: "בתל אביב ובגוש דן." },
+      { q: "כמה זה עולה?", a: "הבדיקה הראשונה חינם. בהמשך מסכמים יחד לפי מה שהמסעדה צריכה." }
+    ],
+    wa: { free: "שלום, אשמח לבדיקת פודקוסט חינם למסעדה", menu: "שלום, אשמח לבדיקת פודקוסט לכל התפריט", open: "שלום, אני פותח מקום חדש ואשמח לדבר", lic: "שלום, אשמח לעזרה במטבח לקראת רישיון עסק", talk: "שלום, אשמח לדבר על המסעדה שלי" }
+  },
+  ru: {
+    nav: { services: "Услуги", opening: "Новое место", license: "Лицензия", how: "Как работаем", contact: "Контакты" },
+    h1a: "Больше прибыли с каждого блюда.", h1b: "Без потери качества.",
+    heroP: "Шеф, который открывал и вёл рестораны. Я захожу на вашу кухню, нахожу, где утекают деньги, и показываю, сколько можно сэкономить — в шекелях.",
+    ctaFree: "Бесплатная проверка фудкоста", freeNote: "Первый разговор на 30 минут — бесплатно и без обязательств.",
+    calcTitle: "Калькулятор фудкоста", calcSub: "Посчитайте себестоимость блюда сами — до 10 ингредиентов",
+    colName: "Ингредиент", colQty: "Кол-во", colUnit: "Ед.", colPrice: "Цена ₪", phName: "Куриное филе",
+    unitG: "грамм", unitU: "штука", unitHint: "Граммы: цена за кг · Штуки: цена за штуку",
+    perKg: "за кг", perUnit: "за шт", priceKg: "Цена за кг", priceUnit: "Цена за штуку", del: "Удалить ингредиент",
+    addRow: "Добавить ингредиент", maxRows: "Максимум — 10 ингредиентов.", menuPrice: "Цена в меню (с НДС) ₪",
+    cost: "Себестоимость", net: "Цена без НДС", fc: "Фудкост",
+    fcEmpty: "Введите ингредиенты и цену в меню", fcOk: "В норме. Обычный диапазон для ресторанов: 25%–35%", fcHigh: "Выше обычного диапазона (25%–35%). Блюдо стоит проверить",
+    calcMore: "Проверить всё меню? Напишите мне",
+    probA: "Где рестораны", probB: "теряют деньги?",
+    problems: [
+      { t: "Порции больше техкарты", d: "Каждый повар кладёт чуть по-своему, и разница копится каждый вечер." },
+      { t: "Поставщики тихо поднимают цены", d: "Плюс шекель за кило тут и там, и никто не сверяет." },
+      { t: "Списания и отходы", d: "Испорченный товар, лишние заготовки, неправильное хранение." },
+      { t: "Лишний склад", d: "Деньги лежат в холодильниках и на складе, а не в кассе." },
+      { t: "Хит с низкой маржой", d: "Самое продаваемое блюдо иногда приносит меньше всех." }
+    ],
+    servA: "Наши", servB: "услуги", servP: "Можно взять одну услугу или всё вместе.",
+    services: [
+      { k: "COST CONTROL", t: "Контроль затрат", d: "Ежемесячный контроль фудкоста: сколько потратили, на что и где превышен план." },
+      { k: "RECIPE COSTING", t: "Калькуляция и техкарты", d: "Техкарта на каждое блюдо с точной себестоимостью и единой граммовкой." },
+      { k: "MENU ENGINEERING", t: "Инженерия меню", d: "Популярность против маржи: что поднять в цене, что изменить, что убрать." },
+      { k: "SUPPLIER AUDIT", t: "Аудит поставщиков и счетов", d: "Сверка счетов с рыночными ценами и подготовка к переговорам." },
+      { k: "WASTE REDUCTION", t: "Сокращение списаний", d: "Поиск потерь на отходах, порче и неправильном хранении." },
+      { k: "INVENTORY CONTROL", t: "Склад и заказы", d: "Система учёта и заказов, чтобы не закупать лишнего." },
+      { k: "KITCHEN AUDIT", t: "Аудит работы кухни", d: "День на кухне от открытия до закрытия и отчёт с потерями в шекелях." },
+      { k: "STAFF TRAINING", t: "Обучение персонала", d: "Учим поваров и команду кухни держать граммовку и стандарты." }
+    ],
+    openA: "Открываете новое место?", openB: "Стройте его правильно с первого дня.",
+    openP: "Самые дорогие ошибки случаются ещё до того, как ресторан открыл двери. Я сопровождаю открытие со стороны кухни — чтобы вы стартовали с работающей системой, понятными затратами и командой, которая точно знает, что делать.",
+    opening: [
+      { k: "LOGISTICS & SUPPLY", t: "Система логистики и поставок", d: "Заказы, приёмка, хранение и склад — понятно, просто и работает с первого дня." },
+      { k: "SUPPLIER SOURCING", t: "Подбор выгодных поставщиков", d: "Сравнение по цене, качеству, срокам и условиям оплаты — и лучшая комбинация для вас." },
+      { k: "RECIPE & SPEC CARDS", t: "Разработка техкарт", d: "Рецепт, граммовка, себестоимость и фото подачи — чтобы каждая тарелка была одинаковой в любую смену." },
+      { k: "STAFFING PLAN", t: "Планирование штата", d: "Сколько людей нужно, кто на какой станции, чем занимается и сколько получает — под объём работы и бюджет." },
+      { k: "KITCHEN WORKFLOW", t: "Поток работы на кухне", d: "Расстановка станций и движение от приёмки до раздачи — быстро, без столкновений и потерь времени." },
+      { k: "EQUIPMENT LIST", t: "Разумный список оборудования", d: "Что действительно нужно под ваше меню, а что только займёт место и удорожит открытие." },
+      { k: "OPENING BUDGET", t: "Бюджет кухни на открытие", d: "Оборудование, стартовый склад и зарплаты на первые месяцы — без сюрпризов." },
+      { k: "PRE-OPENING TRAINING", t: "Обучение и запуск", d: "Обучаем команду блюдам, стандартам и рутине и сопровождаем первые дни работы." }
+    ],
+    openCta: "Расскажите о новом месте",
+    licA: "Помогаем получить", licB: "лицензию на бизнес.",
+    licP: "Всё, что касается кухни, санитарии и безопасности, — подготовлено заранее, чтобы вы пришли на проверку спокойными и готовыми.",
+    licCta: "Предварительная проверка кухни",
+    licNote: "Лицензию выдаёт муниципалитет по согласованию с профильными ведомствами. Планы и документы, которые требуют подписи лицензированного специалиста, подаёт этот специалист.",
+    license: [
+      { t: "Планировка кухни по требованиям", d: "Разделение сырой, готовой и моечной зон, раковины, хранение и поток — до стройки, а не после." },
+      { t: "Процедуры безопасности пищи", d: "Приёмка, хранение, охлаждение, разморозка и маркировка — письменные процедуры под вашу кухню." },
+      { t: "План уборки и журналы контроля", d: "График уборки и дезинфекции, контроль температур и дезинсекции — простые формы, которые персонал реально заполняет." },
+      { t: "Безопасность на кухне", d: "Безопасная работа с ножами, горячим оборудованием, газом и маслом; проверка огнетушителей и аптечки." },
+      { t: "Обучение гигиене и безопасности", d: "Каждый сотрудник знает, что можно, что нельзя и что делать, когда приходит инспектор." },
+      { t: "Предварительная проверка", d: "Обход кухни глазами инспектора и понятный список исправлений до настоящей проверки." }
+    ],
+    howA: "Как со мной", howB: "работать?",
+    steps: [
+      { n: "01", t: "Говорим — бесплатно", d: "Рассказываете о ресторане, меню и о том, что вас беспокоит." },
+      { n: "02", t: "Подстраиваем работу под вас", d: "Фиксированного прайса нет. Каждый ресторан разный, поэтому договариваемся вместе, что проверяем и как работаем." },
+      { n: "03", t: "Проверка, отчёт и план", d: "Я прихожу на кухню, а вы получаете список изменений с суммой экономии в месяц по каждому." }
+    ],
+    howCta: "Давайте поговорим",
+    aboutA: "Кто", aboutB: "я",
+    aboutP1: "Меня зовут Рома Галицкий. Я был шефом, открывал и вёл рестораны. Я знаю кухню изнутри — давление сервиса, поставщиков и места, где деньги исчезают незаметно.",
+    aboutP2: "В ProfitLab я помогаю владельцам ресторанов снижать затраты, не трогая качество еды и впечатления гостя.",
+    ctaA: "Сколько может сэкономить", ctaB: "ваш ресторан?", ctaP: "Напишите и запишитесь на бесплатную 30-минутную проверку фудкоста.", ctaWa: "Написать в WhatsApp",
+    footer: "Контроль затрат для ресторанов",
+    zone: "Тель-Авив и Гуш-Дан",
+    confid: "Полная конфиденциальность — ваши счета и цифры остаются между нами",
+    expA: "С кем я", expB: "работал",
+    counterLabel: "Сколько мы уже сэкономили клиентам",
+    faqA: "Частые", faqB: "вопросы",
+    faq: [
+      { q: "Что нужно подготовить к проверке?", a: "Техкарты, если есть, счета поставщиков, отчёт по продажам и меню. Если чего-то нет — начинаем с того, что есть." },
+      { q: "Сколько длится проверка?", a: "От получаса до часа." },
+      { q: "Мои данные останутся конфиденциальными?", a: "Да. Ваши счета, цены и цифры остаются между нами и никому не передаются." },
+      { q: "В каком районе вы работаете?", a: "Тель-Авив и Гуш-Дан." },
+      { q: "Сколько это стоит?", a: "Первая проверка бесплатна. Дальше договариваемся вместе под задачи вашего ресторана." }
+    ],
+    wa: { free: "Здравствуйте, хочу бесплатную проверку фудкоста для ресторана", menu: "Здравствуйте, хочу проверку фудкоста всего меню", open: "Здравствуйте, я открываю новое место и хочу обсудить", lic: "Здравствуйте, нужна помощь с кухней для лицензии на бизнес", talk: "Здравствуйте, хочу поговорить о своём ресторане" }
+  },
+  en: {
+    nav: { services: "Services", opening: "New opening", license: "Licensing", how: "How we work", contact: "Contact" },
+    h1a: "More profit from every dish.", h1b: "Without cutting quality.",
+    heroP: "A chef who has opened and run restaurants. I step into your kitchen, find where the money leaks, and show you how much you can save — in shekels.",
+    ctaFree: "Free food cost check", freeNote: "First 30-minute call — free, no strings attached.",
+    calcTitle: "Food cost calculator", calcSub: "Work out your dish cost yourself — up to 10 ingredients",
+    colName: "Ingredient", colQty: "Qty", colUnit: "Unit", colPrice: "Price ₪", phName: "Chicken breast",
+    unitG: "grams", unitU: "pieces", unitHint: "Grams: price per kg · Pieces: price per piece",
+    perKg: "per kg", perUnit: "per pc", priceKg: "Price per kg", priceUnit: "Price per piece", del: "Remove ingredient",
+    addRow: "Add ingredient", maxRows: "Maximum reached — 10 ingredients.", menuPrice: "Menu price (incl. VAT) ₪",
+    cost: "Dish cost", net: "Price excl. VAT", fc: "Food cost",
+    fcEmpty: "Enter ingredients and a menu price", fcOk: "Looks healthy. Typical restaurant range: 25%–35%", fcHigh: "Above the typical range (25%–35%). Worth a closer look",
+    calcMore: "Want the whole menu checked? Message me",
+    probA: "Where restaurants", probB: "lose money",
+    problems: [
+      { t: "Portions bigger than the spec", d: "Every cook plates a little differently, and the gap adds up every night." },
+      { t: "Suppliers quietly raising prices", d: "One more shekel per kilo here and there, and nobody checks." },
+      { t: "Waste and spoilage", d: "Spoiled stock, over-prepping and poor storage." },
+      { t: "Excess inventory", d: "Cash sitting in fridges and storerooms instead of the till." },
+      { t: "Bestsellers with thin margins", d: "Your top-selling dish is sometimes your least profitable." }
+    ],
+    servA: "Our", servB: "services", servP: "Pick a single service or the full package.",
+    services: [
+      { k: "COST CONTROL", t: "Cost control", d: "Monthly food cost tracking: what you spent, on what, and where you are over target." },
+      { k: "RECIPE COSTING", t: "Recipe costing & spec cards", d: "A spec card for every dish with exact cost and a fixed portion standard." },
+      { k: "MENU ENGINEERING", t: "Menu engineering", d: "Popularity versus margin: what to reprice, rework or remove." },
+      { k: "SUPPLIER AUDIT", t: "Supplier & invoice audit", d: "Invoices checked against market prices, plus a brief for negotiating with suppliers." },
+      { k: "WASTE REDUCTION", t: "Waste reduction", d: "Finding losses in waste, spoilage and incorrect storage." },
+      { k: "INVENTORY CONTROL", t: "Inventory & ordering", d: "A counting and ordering routine so you never overbuy." },
+      { k: "KITCHEN AUDIT", t: "Kitchen operations audit", d: "A full day in your kitchen, open to close, and a report with losses in shekels." },
+      { k: "STAFF TRAINING", t: "Staff training", d: "Training cooks and kitchen staff to hold portions and standards." }
+    ],
+    openA: "Opening a new place?", openB: "Build it right from day one.",
+    openP: "The costliest mistakes happen before a restaurant even opens its doors. I guide the opening from the kitchen side — so you launch with a system that works, clear costs and a team that knows exactly what to do.",
+    opening: [
+      { k: "LOGISTICS & SUPPLY", t: "Logistics & supply system", d: "Ordering, receiving, storage and stock — clear, simple and running from day one." },
+      { k: "SUPPLIER SOURCING", t: "Supplier selection", d: "Suppliers compared on price, quality, delivery times and payment terms — and the right mix for you." },
+      { k: "RECIPE & SPEC CARDS", t: "Spec card development", d: "Recipe, portion, cost and plating photo for every dish — so every plate comes out the same, every shift." },
+      { k: "STAFFING PLAN", t: "Staffing plan", d: "How many people you need, who works which station, what each role does and what it pays — sized to your volume and budget." },
+      { k: "KITCHEN WORKFLOW", t: "Kitchen workflow", d: "Station layout and flow from receiving to the pass — fast, without collisions or wasted time." },
+      { k: "EQUIPMENT LIST", t: "Smart equipment list", d: "What your menu really needs, and what would only take up space and inflate the opening cost." },
+      { k: "OPENING BUDGET", t: "Kitchen opening budget", d: "A clear estimate of equipment, opening stock and staff costs for the first months — no surprises." },
+      { k: "PRE-OPENING TRAINING", t: "Training & launch support", d: "Training the team on dishes, standards and routines, and support through the first days of service." }
+    ],
+    openCta: "Tell me about your new place",
+    licA: "We help you get your", licB: "business license.",
+    licP: "Everything related to the kitchen, sanitation and kitchen safety — prepared in advance, so you walk into the inspection calm and ready.",
+    licCta: "Book a kitchen pre-inspection",
+    licNote: "The license itself is issued by the local authority in coordination with the approving bodies. Plans and approvals that require a licensed professional are submitted by that professional.",
+    license: [
+      { t: "Kitchen layout to requirements", d: "Separation of raw, cooked and washing areas, sinks, storage and workflow — before you build, not after." },
+      { t: "Food safety procedures", d: "Receiving, storage, cooling, thawing and labelling — written procedures tailored to your kitchen." },
+      { t: "Cleaning plan & control logs", d: "Cleaning and sanitising schedule, temperature and pest control logs — simple forms your team will actually fill in." },
+      { t: "Kitchen safety", d: "Safe work with knives, hot equipment, gas and oil, and a check that fire equipment and first aid are in place." },
+      { t: "Hygiene & safety training", d: "Every employee knows what is allowed, what is not, and what to do when an inspector walks in." },
+      { t: "Pre-inspection", d: "A walk-through of your kitchen through an inspector’s eyes, with a clear fix list before the real visit." }
+    ],
+    howA: "How we", howB: "work together",
+    steps: [
+      { n: "01", t: "We talk — free", d: "Tell me about your restaurant, your menu and what is bothering you." },
+      { n: "02", t: "We tailor the work to you", d: "No fixed price list. Every restaurant is different, so we agree together on what to check and how to work." },
+      { n: "03", t: "Audit, report and plan", d: "I come into the kitchen, and you get a list of changes ranked by how much each saves per month." }
+    ],
+    howCta: "Let’s talk",
+    aboutA: "About", aboutB: "me",
+    aboutP1: "My name is Roma Galitsky. I was a chef and have opened and run restaurants. I know the kitchen from the inside — the pressure of service, the suppliers, and the places where money disappears without anyone noticing.",
+    aboutP2: "At ProfitLab I help restaurant owners cut costs without touching the quality of the food or the guest experience.",
+    ctaA: "How much could your", ctaB: "restaurant save?", ctaP: "Send a message and book a free 30-minute food cost check.", ctaWa: "Message me on WhatsApp",
+    footer: "Cost control for restaurants",
+    zone: "Tel Aviv & Gush Dan",
+    confid: "Full confidentiality — your invoices and numbers stay between us",
+    expA: "Places I have", expB: "worked with",
+    counterLabel: "Saved for our clients so far",
+    faqA: "Frequently asked", faqB: "questions",
+    faq: [
+      { q: "What do I need to prepare?", a: "Spec cards if you have them, supplier invoices, a sales report and your menu. If something is missing, we start with what you have." },
+      { q: "How long does the check take?", a: "Between half an hour and an hour." },
+      { q: "Will my information stay confidential?", a: "Yes. Your invoices, prices and numbers stay between us and are never shared." },
+      { q: "Which area do you cover?", a: "Tel Aviv and the Gush Dan area." },
+      { q: "How much does it cost?", a: "The first check is free. After that, we agree together based on what your restaurant needs." }
+    ],
+    wa: { free: "Hi, I would like a free food cost check for my restaurant", menu: "Hi, I would like a food cost check for my whole menu", open: "Hi, I am opening a new place and would like to talk", lic: "Hi, I need help with the kitchen for a business license", talk: "Hi, I would like to talk about my restaurant" }
+  }
+};
+
+(function () {
+  const VAT = 1.18;
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const get = (o, path) => path.split('.').reduce((a, k) => (a ? a[k] : undefined), o);
+  const checkSvg = '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A27E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 22px;margin-top:3px"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  const lists = {
+    problems: (p) => '<div><div style="font-weight:500;font-size:17px">' + esc(p.t) + '</div><div class="d">' + esc(p.d) + '</div></div>',
+    services: (s) => '<div><div class="k ltr">' + esc(s.k) + '</div><div class="t">' + esc(s.t) + '</div><div class="d">' + esc(s.d) + '</div></div>',
+    opening: (o) => '<div><div class="k ltr">' + esc(o.k) + '</div><div class="t">' + esc(o.t) + '</div><div class="d">' + esc(o.d) + '</div></div>',
+    license: (c) => '<div>' + checkSvg + '<div style="display:flex;flex-direction:column;gap:4px"><div style="font-weight:500;font-size:18px">' + esc(c.t) + '</div><div class="d">' + esc(c.d) + '</div></div></div>',
+    steps: (s) => '<div><div class="n ltr">' + esc(s.n) + '</div><div class="t">' + esc(s.t) + '</div><div class="d" style="font-size:16px">' + esc(s.d) + '</div></div>',
+    faq: (f) => '<details><summary>' + esc(f.q) + '</summary><div>' + esc(f.a) + '</div></details>'
+  };
+
+  let lang = DEFAULT_LANG;
+  try {
+    const q = new URLSearchParams(location.search).get('lang');
+    const saved = localStorage.getItem('pl-lang');
+    if (I18N[q]) lang = q; else if (I18N[saved]) lang = saved;
+  } catch (e) {}
+
+  let t = I18N[lang];
+  let nextId = 1;
+  let rows = [];
+  const rowsEl = document.getElementById('rows');
+  const menuEl = document.getElementById('menu-price');
+
+  function setLang(code) {
+    lang = code; t = I18N[code];
+    try { localStorage.setItem('pl-lang', code); } catch (e) {}
+    const html = document.documentElement;
+    html.lang = code; html.dir = code === 'he' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-t]').forEach((el) => { const v = get(t, el.dataset.t); if (typeof v === 'string') el.textContent = v; });
+    document.querySelectorAll('[data-list]').forEach((el) => { el.innerHTML = t[el.dataset.list].map(lists[el.dataset.list]).join(''); });
+    document.querySelectorAll('[data-wa]').forEach((el) => { el.href = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(t.wa[el.dataset.wa]); el.target = '_blank'; el.rel = 'noopener'; });
+    document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === code ? 'true' : 'false'));
+    rowsEl.querySelectorAll('.crow').forEach(labelRow);
+    calc();
+  }
+
+  function labelRow(r) {
+    r.querySelector('.name').placeholder = t.phName;
+    r.querySelector('.name').setAttribute('aria-label', t.colName);
+    r.querySelector('.qty').setAttribute('aria-label', t.colQty);
+    const unit = r.querySelector('.unit');
+    unit.setAttribute('aria-label', t.colUnit);
+    unit.options[0].textContent = t.unitG; unit.options[1].textContent = t.unitU;
+    const price = r.querySelector('.price');
+    price.placeholder = unit.value === 'g' ? t.perKg : t.perUnit;
+    price.setAttribute('aria-label', unit.value === 'g' ? t.priceKg : t.priceUnit);
+    r.querySelector('.del').setAttribute('aria-label', t.del);
+  }
+
+  function addRow() {
+    if (rowsEl.children.length >= 10) return;
+    const r = document.createElement('div');
+    r.className = 'crow'; r.dataset.id = nextId++;
+    r.innerHTML = '<input type="text" class="name"><input type="number" inputmode="decimal" min="0" class="qty" placeholder="180"><select class="unit"><option value="g"></option><option value="u"></option></select><input type="number" inputmode="decimal" min="0" class="price"><button type="button" class="del"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
+    rowsEl.appendChild(r); labelRow(r); updateAdd();
+  }
+
+  function updateAdd() {
+    const full = rowsEl.children.length >= 10;
+    document.getElementById('add').hidden = full;
+    document.getElementById('max').hidden = !full;
+  }
+
+  const num = (v) => { const n = parseFloat(String(v || '').replace(',', '.')); return isFinite(n) && n > 0 ? n : 0; };
+
+  function calc() {
+    let total = 0;
+    rowsEl.querySelectorAll('.crow').forEach((r) => {
+      const q = num(r.querySelector('.qty').value), p = num(r.querySelector('.price').value);
+      total += r.querySelector('.unit').value === 'g' ? (q / 1000) * p : q * p;
+    });
+    const menu = num(menuEl.value), net = menu / VAT;
+    document.getElementById('total').textContent = '₪' + total.toFixed(2);
+    document.getElementById('net').textContent = '₪' + net.toFixed(2);
+    const fc = document.getElementById('fc');
+    fc.classList.remove('ok', 'high');
+    const pctEl = document.getElementById('pct'), noteEl = document.getElementById('fcnote');
+    if (menu > 0 && total > 0) {
+      const pct = (total / net) * 100;
+      pctEl.textContent = pct.toFixed(1) + '%';
+      if (pct <= 35) { fc.classList.add('ok'); noteEl.textContent = t.fcOk; } else { fc.classList.add('high'); noteEl.textContent = t.fcHigh; }
+    } else { pctEl.textContent = '—'; noteEl.textContent = t.fcEmpty; }
+  }
+
+  rowsEl.addEventListener('input', calc);
+  rowsEl.addEventListener('change', (e) => { if (e.target.classList.contains('unit')) labelRow(e.target.closest('.crow')); calc(); });
+  rowsEl.addEventListener('click', (e) => {
+    const b = e.target.closest('.del'); if (!b) return;
+    b.closest('.crow').remove();
+    if (!rowsEl.children.length) addRow();
+    updateAdd(); calc();
+  });
+  menuEl.addEventListener('input', calc);
+  document.getElementById('add').addEventListener('click', addRow);
+  document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+  addRow(); addRow(); addRow();
+  setLang(lang);
+
+  if (SAVED_TOTAL > 0) {
+    const box = document.getElementById('counter'), val = document.getElementById('counter-val');
+    box.hidden = false;
+    const run = () => {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { val.textContent = '₪' + SAVED_TOTAL.toLocaleString('en-US'); return; }
+      const start = performance.now(), dur = 2400;
+      const step = (now) => { const p = Math.min(1, (now - start) / dur); val.textContent = '₪' + Math.round(SAVED_TOTAL * (1 - Math.pow(1 - p, 3))).toLocaleString('en-US'); if (p < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((en) => { if (en[0].isIntersecting) { io.disconnect(); run(); } }, { threshold: 0.4 });
+      io.observe(box);
+    } else run();
+  }
+})();
+</script>
+</body>
+</html>
